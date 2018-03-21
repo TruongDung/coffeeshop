@@ -1,0 +1,14 @@
+body {
+    padding-top: 54px;
+    background-image: url("../images/background.jpg");
+}
+
+@media (min-width: 992px) {
+    body {
+        padding-top: 56px;
+    }
+}
+
+.form-custom {
+    width: 90%;
+}

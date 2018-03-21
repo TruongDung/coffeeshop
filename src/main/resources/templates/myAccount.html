@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="layout/layout">
+<head>
+    <th:block layout:fragment="css_placeholder">
+        <link rel="stylesheet" th:href="@{/css/my-account.css}" href="../../css/my-account.css"/>
+    </th:block>
+</head>
+<body>
+<header layout:fragment="page_header" class="d-none"></header>
+<ol layout:fragment="breadcrumb">
+    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">My Account</li>
+</ol>
+<th:block layout:fragment="page_content">
+    <div class="card">
+        <div class="card-header user-info-header">
+            Your information
+        </div>
+        <div class="card-block user-info">
+            <form th:object="${person}" th:action="@{/my-account}" method="post" class="form-custom">
+                <input type="hidden" name="id" th:field="*{id}"/>
+                <div class="form-group row">
+                    <label for="firstName" class="col-sm-3 col-md-3 col-form-label">First Name</label>
+                    <div class="col-sm-9 col-md-9">
+                        <input th:field="*{firstName}" type="text" class="form-control" id="firstName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="lastName" class="col-sm-3 col-md-3 col-form-label">Last Name</label>
+                    <div class="col-sm-9 col-md-9">
+                        <input th:field="*{lastName}" type="text" class="form-control" id="lastName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-sm-3 col-md-3 col-form-label">Email</label>
+                    <div class="col-sm-9 col-md-9">
+                        <input th:field="*{email}" type="text" class="form-control" id="email">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="phone" class="col-sm-3 col-md-3 col-form-label">Phone Number</label>
+                    <div class="col-sm-9 col-md-9">
+                        <input th:field="*{phone}" type="text" class="form-control" id="phone">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="city" class="col-sm-3 col-md-3 col-form-label">City</label>
+                    <div class="col-sm-9 col-md-9">
+                        <input th:field="*{address.city}" type="text" class="form-control" id="city">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="state" class="col-sm-3 col-md-3 col-form-label">State</label>
+                    <div class="col-sm-9 col-md-9">
+                        <input th:field="*{address.state}" type="text" class="form-control" id="state">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="country" class="col-sm-3 col-md-3 col-form-label">Country</label>
+                    <div class="col-sm-9">
+                        <input th:field="*{address.country}" type="text" class="form-control" id="country">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="zipcode" class="col-sm-3 col-md-3 col-form-label">Zip Code</label>
+                    <div class="col-sm-9 col-md-9">
+                        <input th:field="*{address.zipcode}" type="text" class="form-control" id="zipcode">
+                    </div>
+                </div>
+                <div class="form-group row" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <label for="enabled" class="col-sm-3 col-md-3 col-form-label">Enabled</label>
+                    <div class="col-sm-9 col-md-9">
+                        <input th:field="*{enabled}" type="checkbox" class="form-control" id="enabled">
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary"/>
+            </form>
+        </div>
+    </div>
+    <div class="card" th:each="order : ${orders}">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-3 col-3">
+                    ORDER PLACED
+                </div>
+                <div class="col-sm-3 col-3">
+                    TOTAL
+                </div>
+                <div class="col-sm-3 col-3">
+                    ORDER STATUS
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-3" th:text="${order.orderDate}">
+                </div>
+                <div class="col-sm-3 col-3" th:text="${order.totalAmount}">
+                </div>
+                <div class="col-sm-3 col-3">
+                    SHIPPED
+                </div>
+            </div>
+        </div>
+        <div class="row" th:each="orderLine, iter : ${order.orderLines}">
+            <div class="card-block">
+                <h4 class="card-title" th:text="${orderLine.product.name}"></h4>
+                <div class="card-text" th:text="${orderLine.product.description}"></div>
+                <div class="card-text">Price: $ <strong th:text="${orderLine.product.price}"></strong></div>
+                <div class="card-text">Quantity: <strong th:text="${orderLine.quantity}"></strong></div>
+            </div>
+            <hr th:if="${iter.index % 2 == 0 && !iter.last}"/>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

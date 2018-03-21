@@ -1,0 +1,18 @@
+body {
+    padding-top: 70px;
+    background-image: none !important;
+}
+
+@media (min-width: 992px) {
+    body {
+        padding-top: 70px;
+    }
+}
+
+.container {
+    width: 90% !important;
+}
+
+.create-product-btn {
+    margin-bottom: 15px;
+}

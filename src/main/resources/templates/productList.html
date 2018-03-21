@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
+<head>
+    <section layout:fragment="css_placeholder">
+        <link rel="stylesheet" th:href="@{/css/product_list.css}" href="../../css/product_list.css"/>
+    </section>
+</head>
+<body>
+<header layout:fragment="page_header" class="d-none"></header>
+<ol layout:fragment="breadcrumb">
+    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Product List</li>
+</ol>
+<th:block layout:fragment="page_content">
+    <a class="btn btn-secondary create-product-btn" th:href="@{/product}" role="button">Create Product</a>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+            <th scope="col">Product Type</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product : ${products}">
+                <td>
+                    <a th:href="@{'/product/' + ${product.id}}" th:text="${product.name}">
+                    </a>
+                </td>
+                <td th:text="${product.description}"></td>
+                <td th:text="${product.price} + ' $'"></td>
+                <td th:text="${product.productType}"></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</th:block>
+</body>
+</html>

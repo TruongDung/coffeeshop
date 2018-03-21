@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="layout/layout">
+<head>
+    <th:block layout:fragment="css_placeholder">
+        <link rel="stylesheet" th:href="@{/css/orders.css}" href="../../css/orders.css"/>
+    </th:block>
+</head>
+<body>
+<header layout:fragment="page_header" class="d-none"></header>
+<ol layout:fragment="breadcrumb">
+    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Orders</li>
+</ol>
+<th:block layout:fragment="page_content">
+    <div class="card" th:each="order : ${orders}">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-3 col-3">
+                    Customer
+                </div>
+                <div class="col-sm-3 col-3">
+                    ORDER PLACED
+                </div>
+                <div class="col-sm-3 col-3">
+                    TOTAL
+                </div>
+                <div class="col-sm-3 col-3">
+                    ORDER STATUS
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 col-3" th:text="${order.person.firstName}">
+                </div>
+                <div class="col-sm-3 col-3" th:text="${order.orderDate}">
+                </div>
+                <div class="col-sm-3 col-3" th:text="${order.totalAmount}">
+                </div>
+                <div class="col-sm-3 col-3">
+                    SHIPPED
+                </div>
+            </div>
+        </div>
+        <div class="row" th:each="orderLine, iter : ${order.orderLines}">
+            <div class="card-block">
+                <h4 class="card-title" th:text="${orderLine.product.name}"></h4>
+                <div class="card-text" th:text="${orderLine.product.description}"></div>
+                <div class="card-text">Price: $ <strong th:text="${orderLine.product.price}"></strong></div>
+                <div class="card-text">Quantity: <strong th:text="${orderLine.quantity}"></strong></div>
+            </div>
+            <hr th:if="${!iter.last}" style="width: 100%"/>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>
